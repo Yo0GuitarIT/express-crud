@@ -15,7 +15,8 @@ class UserController {
   }
 
   public getUser(req: Request, res: Response): void {
-    const user = this.users.find((u) => u.id === parseInt(req.params.id));
+    const userId = parseInt(req.params.id);
+    const user = this.findUserById(userId);
     if (user) {
       res.json(user);
     } else {
@@ -35,7 +36,8 @@ class UserController {
   }
 
   public updateUser(req: Request, res: Response): void {
-    const user = this.users.find((user) => user.id === parseInt(req.params.id));
+    const userId = parseInt(req.params.id);
+    const user = this.findUserById(userId);
     if (user) {
       user.name = req.body.name;
       user.email = req.body.email;
@@ -45,15 +47,18 @@ class UserController {
     }
   }
   public deleteUser(req: Request, res: Response): void {
-    const userIndex = this.users.findIndex(
-      (user) => user.id === parseInt(req.params.id)
-    );
+    const userId = parseInt(req.params.id);
+    const userIndex = this.users.findIndex((user) => user.id === userId);
     if (userIndex !== -1) {
       this.users.splice(userIndex, 1);
       res.json({ message: "User delete successfully." });
     } else {
       res.status(404).json({ message: "User not found." });
     }
+  }
+
+  private findUserById(userId: number): User | undefined {
+    return this.users.find((user) => user.id === userId);
   }
 }
 
