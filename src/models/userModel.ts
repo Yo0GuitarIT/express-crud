@@ -10,11 +10,6 @@ export const users: User[] = [
 ];
 
 export const getNextUserId = (() => {
-  let nextUserId = 2;
-
-  const sentUserId = () => {
-    return (nextUserId += 1);
-  };
-
-  return sentUserId;
+  let nextUserId = 3;
+  return () => nextUserId++;
 })();

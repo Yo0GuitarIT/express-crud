@@ -1,9 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
-import userRoutes from "./routes/userRoutes";
+import UserRoutes from "./routes/userRoutes";
+import UserController from "./controllers/userController";
+import { users, getNextUserId } from "./models/userModel";
 
 class App {
   public app: express.Application;
+
   constructor() {
     this.app = express();
     this.config();
@@ -15,7 +18,9 @@ class App {
   }
 
   private routes(): void {
-    this.app.use("/users", userRoutes);
+    const userController = new UserController(users,getNextUserId);
+    const userRoutes = new UserRoutes(userController);
+    this.app.use("/users", userRoutes.router);
   }
 }
 
