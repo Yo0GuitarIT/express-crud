@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User, users } from "../models/userModel";
+import { User, users, getNextUserId } from "../models/userModel";
 
 class userController {
   public getUsers(req: Request, res: Response): void {
@@ -17,7 +17,7 @@ class userController {
 
   public CreateUser(req: Request, res: Response): void {
     const newUser: User = {
-      id: users.length + 1,
+      id: getNextUserId(),
       name: req.body.name,
       email: req.body.email,
     };
@@ -25,12 +25,24 @@ class userController {
     users.push(newUser);
     res.status(201).json(newUser);
   }
+
   public upDateUser(req: Request, res: Response): void {
     const user = users.find((user) => user.id === parseInt(req.params.id));
     if (user) {
       user.name = req.body.name;
       user.email = req.body.email;
       res.json(user);
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  }
+  public deleteUser(req: Request, res: Response): void {
+    const userIndex = users.findIndex(
+      (user) => user.id === parseInt(req.params.id),
+    );
+    if (userIndex !== -1) {
+      users.splice(userIndex, 1);
+      res.json({ message: "User delete successfully." });
     } else {
       res.status(404).json({ message: "User not found." });
     }
