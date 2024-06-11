@@ -25,6 +25,16 @@ class userController {
     users.push(newUser);
     res.status(201).json(newUser);
   }
+  public upDateUser(req: Request, res: Response): void {
+    const user = users.find((user) => user.id === parseInt(req.params.id));
+    if (user) {
+      user.name = req.body.name;
+      user.email = req.body.email;
+      res.json(user);
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  }
 }
 
 export default userController;

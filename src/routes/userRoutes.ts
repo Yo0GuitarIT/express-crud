@@ -6,4 +6,5 @@ const controller = new userController();
 router.get("/", controller.getUsers);
 router.get("/:id", controller.getUser);
 router.post("/", controller.CreateUser);
+router.put("/:id", controller.upDateUser);
 export default router;
