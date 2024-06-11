@@ -7,7 +7,12 @@ import { users, getNextUserId } from "./models/userModel";
 class App {
   public app: express.Application;
 
-  constructor() {
+  constructor(
+    private userController: UserController = new UserController(
+      users,
+      getNextUserId
+    )
+  ) {
     this.app = express();
     this.config();
     this.routes();
@@ -18,8 +23,7 @@ class App {
   }
 
   private routes(): void {
-    const userController = new UserController(users,getNextUserId);
-    const userRoutes = new UserRoutes(userController);
+    const userRoutes = new UserRoutes(this.userController);
     this.app.use("/users", userRoutes.router);
   }
 }

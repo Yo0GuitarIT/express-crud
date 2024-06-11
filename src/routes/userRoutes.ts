@@ -6,10 +6,10 @@ class UserRoutes {
 
   constructor(private userController: UserController) {
     this.router = Router(); 
-    this.intializeRoutes();
+    this.initializeRoutes();
   }
 
-  private intializeRoutes() {
+  private initializeRoutes():void {
     this.router.get(
       "/",
       this.userController.getAllUsers.bind(this.userController)
