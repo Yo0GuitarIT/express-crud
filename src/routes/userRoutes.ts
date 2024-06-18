@@ -5,11 +5,11 @@ class UserRoutes {
   public router: Router;
 
   constructor(private userController: UserController) {
-    this.router = Router(); 
+    this.router = Router();
     this.initializeRoutes();
   }
 
-  private initializeRoutes():void {
+  private initializeRoutes(): void {
     this.router.get(
       "/",
       this.userController.getAllUsers.bind(this.userController)
